@@ -1,0 +1,514 @@
+openapi: 3.0.3
+info:
+  title: SimpleForum
+  version: 0.1.0
+  description: Simple forum for simple people
+paths:
+  /api/social/create/thread/:
+    post:
+      operationId: social_create_thread_create
+      tags:
+      - social
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateThread'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateThread'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateThread'
+        required: true
+      security:
+      - JWTTokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateThread'
+          description: ''
+  /api/social/get/last_threads/:
+    get:
+      operationId: social_get_last_threads_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - social
+      security:
+      - JWTTokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedGetThreadList'
+          description: ''
+  /api/social/get/messages/{thread}/:
+    get:
+      operationId: social_get_messages_list
+      parameters:
+      - in: path
+        name: thread
+        schema:
+          type: integer
+        required: true
+      tags:
+      - social
+      security:
+      - JWTTokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetMessages'
+          description: ''
+  /api/user/create/:
+    post:
+      operationId: user_create_create
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+        required: true
+      security:
+      - JWTTokenAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUser'
+          description: ''
+  /api/user/login/:
+    post:
+      operationId: user_login_create
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCredentials'
+        required: true
+      security:
+      - JWTTokenAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCredentials'
+          description: ''
+  /api/user/logout/:
+    delete:
+      operationId: user_logout_destroy
+      tags:
+      - user
+      security:
+      - JWTTokenAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/user/myuser/:
+    get:
+      operationId: user_myuser_retrieve
+      tags:
+      - user
+      security:
+      - JWTTokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUser'
+          description: ''
+    put:
+      operationId: user_myuser_update
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GetUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GetUser'
+        required: true
+      security:
+      - JWTTokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUser'
+          description: ''
+    patch:
+      operationId: user_myuser_partial_update
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGetUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGetUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGetUser'
+      security:
+      - JWTTokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUser'
+          description: ''
+  /api/user/refresh/:
+    put:
+      operationId: user_refresh_update
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+        required: true
+      security:
+      - JWTTokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshToken'
+          description: ''
+    patch:
+      operationId: user_refresh_partial_update
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRefreshToken'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRefreshToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRefreshToken'
+      security:
+      - JWTTokenAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshToken'
+          description: ''
+  /api/user/update_password/:
+    put:
+      operationId: user_update_password_update
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Password'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Password'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Password'
+        required: true
+      security:
+      - JWTTokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Password'
+          description: ''
+    patch:
+      operationId: user_update_password_partial_update
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPassword'
+      security:
+      - JWTTokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Password'
+          description: ''
+components:
+  schemas:
+    CreateThread:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 40
+        text:
+          type: string
+          maxLength: 6000
+      required:
+      - name
+      - text
+    CreateUser:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        password:
+          type: string
+          maxLength: 50
+      required:
+      - password
+      - username
+    GetMessages:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        text:
+          type: string
+          maxLength: 6000
+        created_time:
+          type: string
+          format: date-time
+          readOnly: true
+        owner:
+          type: integer
+        thread:
+          type: integer
+      required:
+      - created_time
+      - id
+      - owner
+      - text
+      - thread
+    GetThread:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        last_message:
+          allOf:
+          - $ref: '#/components/schemas/GetMessages'
+          readOnly: true
+        name:
+          type: string
+          maxLength: 40
+        counter:
+          type: integer
+        created_time:
+          type: string
+          format: date-time
+          readOnly: true
+        original_poster:
+          type: integer
+        last_poster:
+          type: integer
+      required:
+      - created_time
+      - id
+      - last_message
+      - last_poster
+      - name
+      - original_poster
+    GetUser:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+      required:
+      - username
+    PaginatedGetThreadList:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetThread'
+    Password:
+      type: object
+      properties:
+        password:
+          type: string
+          maxLength: 50
+      required:
+      - password
+    PatchedGetUser:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+    PatchedPassword:
+      type: object
+      properties:
+        password:
+          type: string
+          maxLength: 50
+    PatchedRefreshToken:
+      type: object
+      properties:
+        refresh_token:
+          type: string
+          maxLength: 255
+    RefreshToken:
+      type: object
+      properties:
+        refresh_token:
+          type: string
+          maxLength: 255
+      required:
+      - refresh_token
+    UserCredentials:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        password:
+          type: string
+          maxLength: 150
+      required:
+      - password
+      - username
+  securitySchemes:
+    JWTTokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
