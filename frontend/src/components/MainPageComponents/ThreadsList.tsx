@@ -10,12 +10,12 @@ interface LastThrProps {
 }
 
 function instanceOfThreadType(object: any): object is ThreadType[]  {
-    return 'created_time' in object['0'];
+    return 'created_time' in object['0']
 }
 
 export default function ThreadsList(props: LastThrProps) {
     const { data } = props
-    if (instanceOfThreadType(data)) {
+    if (data[0] && instanceOfThreadType(data)) {
         return(
             <>
                 <Flex alignItems={"center"} mx='10%' bg='gray.50' flexDir={"column"} borderRadius={'20px'} p='10px'>
@@ -25,7 +25,7 @@ export default function ThreadsList(props: LastThrProps) {
         )
     }
 
-    if (!instanceOfThreadType(data)) {
+    if (data[0] && !instanceOfThreadType(data)) {
         return(
             <>
                 <Flex alignItems={"center"} mx='10%' bg='gray.50' flexDir={"column"} borderRadius={'20px'} p='10px'>

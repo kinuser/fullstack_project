@@ -21,10 +21,6 @@ const fetchLastThreads = async (page = 1) => {
 }
 
 
-
-
-
-
 export default function MainPage() {
 
     const [ isEnabled, setIsEnabled ] = useState(false)
